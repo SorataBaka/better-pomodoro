@@ -27,7 +27,7 @@ export default function Settings() {
 		const newConfig = {
 			is_loop: isLoop,
 			session_num: sessions,
-			rule_array: [],
+			rule_array: rules,
 			starting_rest: restHour * 60 + restMinute,
 			starting_task: taskHour * 60 + taskMinute,
 		};
@@ -42,7 +42,8 @@ export default function Settings() {
 				rule_id: currentRuleSelect,
 				add: 0,
 				type: "task",
-				has_variable: false,
+				has_variable:
+					currentRuleSelect == 4 || currentRuleSelect == 5 ? true : false,
 				position: 0,
 			},
 		];
@@ -65,7 +66,9 @@ export default function Settings() {
 								max={24}
 								value={taskHour}
 								onChange={(e) =>
-									setTaskHour(e.target.value > 24 ? 24 : e.target.value)
+									setTaskHour(
+										e.target.value > 24 ? 24 : parseInt(e.target.value)
+									)
 								}
 							/>
 							<input
@@ -75,7 +78,9 @@ export default function Settings() {
 								max={60}
 								value={taskMinute}
 								onChange={(e) =>
-									setTaskMinute(e.target.value > 60 ? 60 : e.target.value)
+									setTaskMinute(
+										e.target.value > 60 ? 60 : parseInt(e.target.value)
+									)
 								}
 							/>
 						</div>
@@ -90,7 +95,9 @@ export default function Settings() {
 								max={24}
 								value={restHour}
 								onChange={(e) =>
-									setRestHour(e.target.value > 24 ? 24 : e.target.value)
+									setRestHour(
+										e.target.value > 24 ? 24 : parseInt(e.target.value)
+									)
 								}
 							/>
 							<input
@@ -100,7 +107,9 @@ export default function Settings() {
 								max={60}
 								value={restMinute}
 								onChange={(e) =>
-									setRestMinute(e.target.value > 60 ? 60 : e.target.value)
+									setRestMinute(
+										e.target.value > 60 ? 60 : parseInt(e.target.value)
+									)
 								}
 							/>
 						</div>
@@ -118,7 +127,7 @@ export default function Settings() {
 							<span className={style.slider + " " + style.round}></span>
 						</label>
 					</div>
-					{isLoop && (
+					{!isLoop && (
 						<div className={style.sidebarsettingdiv}>
 							<h3>How many sessions?</h3>
 							<input
@@ -127,7 +136,7 @@ export default function Settings() {
 								min={0}
 								style={{ width: "100%" }}
 								value={sessions}
-								onChange={(e) => setSession(e.target.value)}
+								onChange={(e) => setSession(parseInt(e.target.value))}
 							/>
 						</div>
 					)}
@@ -163,7 +172,63 @@ export default function Settings() {
 					{rules.map((rule, index) => {
 						return (
 							<div className={style.addedrulediv} key={index}>
-								{rule.name}
+								<div className={style.horizontal}>
+									<div className={style.ruledetaildiv}>
+										<h3>Rule Type</h3>
+										<input type="text" value={rule.name} disabled />
+									</div>
+									<div className={style.ruledetaildiv}>
+										<h3>Seconds to add</h3>
+										<input
+											type="number"
+											value={parseInt(rule.add)}
+											onChange={(e) => {
+												const updatedRules = rules;
+												updatedRules[index].add = parseInt(e.target.value);
+												setRules([...updatedRules]);
+											}}
+										/>
+									</div>
+								</div>
+								<div className={style.horizontal}>
+									<div className={style.ruledetaildiv}>
+										<h3>Where to add?</h3>
+										<select
+											value={rule.type}
+											onChange={(e) => {
+												const updatedRules = rules;
+												updatedRules[index].type = e.target.value;
+												setRules([...updatedRules]);
+											}}
+										>
+											<option value={"task"}>Task Timer</option>
+											<option value={"rest"}>Rest Timer</option>
+											<option value={"both"}>Both Timer</option>
+										</select>
+									</div>
+									<div className={style.ruledetaildiv}>
+										<h3>Rule Criteria (N)</h3>
+										<input
+											type="number"
+											value={parseInt(rule.position)}
+											disabled={rule.rule_id != 4 && rule.rule_id != 5}
+											onChange={(e) => {
+												const updatedRules = rules;
+												updatedRules[index].position = parseInt(e.target.value);
+												setRules([...updatedRules]);
+											}}
+										/>
+									</div>
+								</div>
+								<button
+									onClick={() => {
+										const current = rules;
+										current.splice(index, 1);
+										setRules([...current]);
+									}}
+								>
+									X
+								</button>
 							</div>
 						);
 					})}
