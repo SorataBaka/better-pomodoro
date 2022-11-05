@@ -181,5 +181,23 @@ input:checked + .slider:before {
 	color: white;
 }
 .addedrulediv {
-	min-height: 100px;
+	flex-direction: column;
+}
+
+.horizontal {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	align-items: center;
+}
+.ruledetaildiv {
+	width: 40%;
+	margin: 5px;
+}
+.ruledetaildiv input,
+.ruledetaildiv select {
+	width: 100%;
+	padding: 10px;
+	border-radius: 10px;
+	margin-top: 10px;
 }
