@@ -31,7 +31,7 @@ export default function Settings() {
 			starting_rest: restHour * 60 + restMinute,
 			starting_task: taskHour * 60 + taskMinute,
 		};
-		console.log(newConfig);
+		localStorage.setItem("config", JSON.stringify(newConfig));
 	};
 
 	const addRule = () => {
