@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap");
+/* MAIN LAYOUTS */
+.mainDiv {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.sidebar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 25%;
+	height: 100%;
+}
+.rulebar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 75%;
+	height: 100%;
+}
+
+.sidebarinner,
+.rulebarinner {
+	display: flex;
+	background-color: rgb(232, 236, 250);
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	margin: 20px;
+	padding: 20px;
+	border-radius: 10px;
+	height: 95vh;
+	font-family: "Poppins";
+}
+.sidebarinner h1 {
+	font-size: 30px;
+	color: black;
+}
+
+/* SIDEBAR SETTINGS  */
+.sidebarsettingdiv {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	background-color: rgb(199, 215, 253);
+	padding: 10px;
+	border-radius: 10px;
+	margin-top: 20px;
+}
+.timediv {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+.sidebarsettingdiv input {
+	width: 50%;
+	padding: 10px;
+	margin: 10px;
+	border-radius: 10px;
+}
+/* TOGGLE DIV */
+/* The switch - the box around the slider */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	height: 34px;
+	margin: 40px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+/* The slider */
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 50%;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+input:checked + .slider {
+	background-color: #2196f3;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+	-webkit-transform: translateX(calc(95%));
+	-ms-transform: translateX(calc(95%));
+	transform: translateX(calc(95%));
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 25px;
+}
+
+.slider.round:before {
+	border-radius: 25px;
+}
+
+/* BUTTONS DIV */
+.buttondiv {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+.buttondiv button {
+	height: 40px;
+	width: 50%;
+	margin: 10px;
+	border-radius: 10px;
+	color: white;
+}
+.buttondiv button:hover {
+	transform: scale(1.005);
+	cursor: pointer;
+}
