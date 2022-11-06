@@ -4,7 +4,7 @@ import Link from "next/link";
 const App = () => {
 	return (
 		<>
-			<main className="bg-[#e8ecfa]">
+			<main className="bg-[#e8ecfa] overflow-x-hidden">
 				<div className="h-screen w-screen flex flex-col justify-center items-center">
 					<h1 className="text-6xl font-bold text-center">
 						A <i>BetterPomodoro</i>
@@ -38,11 +38,11 @@ const App = () => {
 						What makes this application special?
 					</h1>
 					<p className="w-3/4 my-3 text-justify indent-20 text-xl">
-						Pomodoro was generally used with a 25 minute task block and 30
-						minute rest block for most effective result in productivity.
-						However, as some people have longer/shorter attention spans, mental
-						capacity, or perhaps a longer time for their mind to get into the
-						zone! it is only natural for these blocks to be adjustable according
+						Pomodoro is generally used with a 25 minute task block and 30 minute
+						rest block for most effective result in productivity. However, as
+						some people have longer/shorter attention spans, mental capacity, or
+						perhaps need longer range of time for their mind to get into the
+						zone! It is only natural for these blocks to be adjustable according
 						to their users needs.
 					</p>
 					<p className="w-3/4 my-3 text-justify text-xl">
