@@ -14,6 +14,7 @@ const Timer = () => {
 
 	const handleStop = (e) => {
 		e.preventDefault();
+		window.location.replace("/");
 	};
 
 	const rulesFunction = [
@@ -24,7 +25,6 @@ const Timer = () => {
 			type: "",
 			has_variable: false,
 			executeFunction: () => {
-				console.log(sessionNum);
 				if (sessionNum % 2 == 0) return true;
 				return false;
 			},
@@ -75,7 +75,7 @@ const Timer = () => {
 	];
 
 	const taskTimerFunc = () => {
-		const timer = setTimeout(() => {
+		setTimeout(() => {
 			if (runningTask > 0) {
 				setRunningTask(runningTask - 1);
 			}
@@ -87,13 +87,13 @@ const Timer = () => {
 	};
 
 	const restTimerFunc = () => {
-		const timer = setTimeout(() => {
+		setTimeout(() => {
 			if (runningRest > 0) {
 				setRunningRest(runningRest - 1);
 			}
 			if (runningRest == 0) {
-				setIsRest(false);
 				setIsTask(true);
+				setIsRest(false);
 			}
 		}, 1000);
 	};
@@ -134,12 +134,12 @@ const Timer = () => {
 		setRunningTask(currentTask);
 		setRunningRest(currentRest);
 		setSessionNum(sessionNum + 1);
-
-		if (sessionNum > config.session_num && config.is_loop == false) {
-			setIsTask(false);
-			setIsRest(false);
-			setRunningRest(0);
-			setRunningTask(0);
+		if (sessionNum + 1 >= config.session_num && config.is_loop == false) {
+			// setIsTask(false);
+			// setIsRest(false);
+			// setRunningRest(0);
+			// setRunningTask(0);
+			window.location.replace("/");
 			return;
 		}
 		applyRule();
@@ -169,7 +169,6 @@ const Timer = () => {
 		if (isRest && runningRest >= 0) {
 			restTimerFunc();
 		}
-
 		if (runningTask == 0 && runningRest == 0) {
 			afetOneSession();
 		}
@@ -224,7 +223,7 @@ const Timer = () => {
 						</button>
 					</div>
 					<h3 className="mt-24 text-2xl font-semibold">
-						NEXT UP: AOSAOWOAWKOAKWO Current Session= {sessionNum + 1}
+						Current Session: {sessionNum + 1}
 					</h3>
 				</div>
 			</main>
