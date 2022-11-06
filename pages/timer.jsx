@@ -9,6 +9,8 @@ const Timer = () => {
   const [runningTask, setRunningTask] = React.useState(config.starting_task);
   const [runningRest, setRunningRest] = React.useState(config.starting_rest);
   const [sessionNum, setSessionNum] = React.useState(config.session_num);
+  const [currentTask, setCurrentTask] = React.useState(0);
+  const [currentRest, setCurrentRest] = React.useState(0);
 
   const handleStop = (e) => {
     e.preventDefault();
@@ -106,16 +108,20 @@ const Timer = () => {
       ) {
         switch (rule.type.toUpperCase()) {
           case "TASK":
-            setRunningTask(runningTask + rule.add);
+            setRunningTask(currentTask + rule.add);
+            setCurrentTask(currentTask + rule.add);
             applied = true;
             break;
           case "REST":
-            setRunningRest(runningTask + rule.add);
+            setRunningRest(currentRest + rule.add);
+            setCurrentRest(currentRest + rule.add);
             applied = true;
             break;
           case "BOTH":
-            setRunningTask(runningTask + rule.add);
-            setRunningRest(runningTask + rule.add);
+            setCurrentTask(currentTask + rule.add);
+            setCurrentRest(currentRest + rule.add);
+            setRunningTask(currentTask + rule.add);
+            setRunningRest(currentRest + rule.add);
             applied = true;
             break;
         }
@@ -125,9 +131,9 @@ const Timer = () => {
   };
 
   const afetOneSession = () => {
+    setRunningTask(currentTask);
+    setRunningRest(currentRest);
     setSessionNum(sessionNum + 1);
-
-    console.log(sessionNum);
 
     if (sessionNum == config.session_num && config.is_loop == false) {
       setIsTask(false);
@@ -151,6 +157,8 @@ const Timer = () => {
       setRunningTask(JSON.parse(localStorage.getItem("config")).starting_task);
       setRunningRest(JSON.parse(localStorage.getItem("config")).starting_rest);
       setSessionNum(JSON.parse(localStorage.getItem("config")).session_num);
+      setCurrentRest(JSON.parse(localStorage.getItem("config")).starting_rest);
+      setCurrentTask(JSON.parse(localStorage.getItem("config")).starting_task);
     };
 
     handleStart();
