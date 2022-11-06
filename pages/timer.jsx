@@ -14,7 +14,7 @@ const Timer = () => {
 
 	const handleStop = (e) => {
 		e.preventDefault();
-		window.location.replace("/");
+		window.location.replace("/finish");
 	};
 
 	const rulesFunction = [
@@ -83,7 +83,7 @@ const Timer = () => {
 				setIsTask(false);
 				setIsRest(true);
 			}
-		}, 1000);
+		}, 50);
 	};
 
 	const restTimerFunc = () => {
@@ -95,7 +95,7 @@ const Timer = () => {
 				setIsTask(true);
 				setIsRest(false);
 			}
-		}, 1000);
+		}, 50);
 	};
 
 	const applyRule = (currentSessionNum) => {
@@ -154,7 +154,7 @@ const Timer = () => {
 			// setIsRest(false);
 			// setRunningRest(0);
 			// setRunningTask(0);
-			window.location.replace("/");
+			window.location.replace("/finish");
 			return;
 		}
 		applyRule(newSession);
