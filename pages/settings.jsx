@@ -28,8 +28,8 @@ export default function Settings() {
 	];
 
 	const validateConfig = (config) => {
-		if (config.isLoop === false && config.session_num <= 0) return false;
-		if (config.starting_rest === 0 || config.starting_task === 0) return false;
+		if (!config.is_loop && config.session_num < 1) return false;
+		if (config.starting_rest == 0 || config.starting_task == 0) return false;
 		return true;
 	};
 
@@ -38,10 +38,12 @@ export default function Settings() {
 			is_loop: isLoop,
 			session_num: sessions,
 			rule_array: rules,
-			starting_rest: restHour * 60 + restMinute,
-			starting_task: taskHour * 60 + taskMinute,
+			starting_rest: restHour * 3600 + restMinute * 60,
+			starting_task: taskHour * 3600 + taskMinute * 60,
 		};
+
 		const validity = validateConfig(newConfig);
+
 		if (!validity) {
 			toast.warn(
 				"Please make sure you have selected the correct configurations! Starting times must be more than 0 and sessions must be set if loop is off."
@@ -53,7 +55,7 @@ export default function Settings() {
 	};
 
 	const addRule = () => {
-		const newArray = [
+		setRules([
 			...rules,
 			{
 				name: availableRules[currentRuleSelect - 1].name,
@@ -64,8 +66,7 @@ export default function Settings() {
 					currentRuleSelect == 4 || currentRuleSelect == 5 ? true : false,
 				position: 0,
 			},
-		];
-		setRules(newArray);
+		]);
 		setCurrentRuleSelect(1);
 	};
 	const resetHandler = () => {
