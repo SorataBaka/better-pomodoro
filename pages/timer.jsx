@@ -8,7 +8,7 @@ const Timer = () => {
 	const [isRest, setIsRest] = React.useState(false);
 	const [runningTask, setRunningTask] = React.useState(config.starting_task);
 	const [runningRest, setRunningRest] = React.useState(config.starting_rest);
-	const [sessionNum, setSessionNum] = React.useState(0);
+	const [sessionNum, setSessionNum] = React.useState(1);
 	const [currentTask, setCurrentTask] = React.useState(0);
 	const [currentRest, setCurrentRest] = React.useState(0);
 
@@ -24,8 +24,8 @@ const Timer = () => {
 			add: 0,
 			type: "",
 			has_variable: false,
-			executeFunction: () => {
-				if (sessionNum % 2 == 0) return true;
+			executeFunction: (currentSessionNum) => {
+				if (currentSessionNum % 2 == 0) return true;
 				return false;
 			},
 		},
@@ -35,18 +35,18 @@ const Timer = () => {
 			add: 0,
 			type: "",
 			has_variable: false,
-			executeFunction: () => {
-				if (sessionNum % 2 != 0) return true;
+			executeFunction: (currentSessionNum) => {
+				if (currentSessionNum % 2 != 0) return true;
 				return false;
 			},
 		},
 		{
 			name: "every_session",
-			rule_id: 0,
+			rule_id: 3,
 			add: 5,
 			type: "",
 			has_variable: false,
-			executeFunction: () => {
+			executeFunction: (currentSessionNum) => {
 				return true;
 			},
 		},
@@ -56,8 +56,8 @@ const Timer = () => {
 			add: 0,
 			type: "",
 			has_variable: true,
-			executeFunction: (n) => {
-				if (sessionNum === n) return true;
+			executeFunction: (n, currentSessionNum) => {
+				if (currentSessionNum === n) return true;
 				return false;
 			},
 		},
@@ -67,8 +67,8 @@ const Timer = () => {
 			add: 0,
 			type: "",
 			has_variable: true,
-			executeFunction: (n) => {
-				if (sessionNum % n === 0) return true;
+			executeFunction: (n, currentSessionNum) => {
+				if (currentSessionNum % n === 0) return true;
 				return false;
 			},
 		},
@@ -98,42 +98,57 @@ const Timer = () => {
 		}, 1000);
 	};
 
-	const applyRule = () => {
+	const applyRule = (currentSessionNum) => {
+		console.log(currentSessionNum);
 		let applied = false;
+		let taskToAdd = 0;
+		let restToAdd = 0;
 		for (const rule of config.rule_array) {
 			const ruleFunc = rulesFunction[rule.rule_id - 1];
 			if (
-				(ruleFunc.has_variable && ruleFunc.executeFunction(rule.position)) ||
-				ruleFunc.executeFunction()
+				(ruleFunc.has_variable &&
+					ruleFunc.executeFunction(rule.position, currentSessionNum)) ||
+				ruleFunc.executeFunction(currentSessionNum)
 			) {
+				console.log("Applying " + rule.name);
 				switch (rule.type.toUpperCase()) {
 					case "TASK":
-						setRunningTask(currentTask + rule.add);
-						setCurrentTask(currentTask + rule.add);
+						// setRunningTask(currentTask + rule.add);
+						// setCurrentTask(currentTask + rule.add);
+						taskToAdd += rule.add;
 						applied = true;
 						break;
 					case "REST":
-						setRunningRest(currentRest + rule.add);
-						setCurrentRest(currentRest + rule.add);
+						// setRunningRest(currentRest + rule.add);
+						// setCurrentRest(currentRest + rule.add);
+						restToAdd += rule.add;
 						applied = true;
 						break;
 					case "BOTH":
-						setCurrentTask(currentTask + rule.add);
-						setCurrentRest(currentRest + rule.add);
-						setRunningTask(currentTask + rule.add);
-						setRunningRest(currentRest + rule.add);
+						// setCurrentTask(currentTask + rule.add);
+						// setCurrentRest(currentRest + rule.add);
+						// setRunningTask(currentTask + rule.add);
+						// setRunningRest(currentRest + rule.add);
+						taskToAdd += rule.add;
+						restToAdd += rule.add;
 						applied = true;
 						break;
 				}
 			}
 		}
+		console.log(`Adding ${taskToAdd} and ${restToAdd}`);
+		setRunningTask(currentTask + taskToAdd);
+		setCurrentTask(currentTask + taskToAdd);
+		setRunningRest(currentRest + restToAdd);
+		setCurrentRest(currentRest + restToAdd);
 		return applied;
 	};
 
 	const afetOneSession = () => {
 		setRunningTask(currentTask);
 		setRunningRest(currentRest);
-		setSessionNum(sessionNum + 1);
+		const newSession = sessionNum + 1;
+		setSessionNum(newSession);
 		if (sessionNum + 1 >= config.session_num && config.is_loop == false) {
 			// setIsTask(false);
 			// setIsRest(false);
@@ -142,7 +157,7 @@ const Timer = () => {
 			window.location.replace("/");
 			return;
 		}
-		applyRule();
+		applyRule(newSession);
 		// if (applyRule()) return;
 		// setRunningTask(config.starting_task);
 		// setRunningRest(config.starting_rest);
@@ -223,7 +238,7 @@ const Timer = () => {
 						</button>
 					</div>
 					<h3 className="mt-24 text-2xl font-semibold">
-						Current Session: {sessionNum + 1}
+						Current Session: {sessionNum}
 					</h3>
 				</div>
 			</main>
