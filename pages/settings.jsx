@@ -50,7 +50,16 @@ export default function Settings() {
 		setRules(newArray);
 		setCurrentRuleSelect(1);
 	};
-
+	const resetHandler = () => {
+		setLoop(false);
+		setTaskHour(0);
+		setTaskMinute(0);
+		setRestHour(0);
+		setRestMinute(0);
+		setSession(0);
+		setRules([]);
+		setCurrentRuleSelect(1);
+	};
 	return (
 		<div className={style.mainDiv}>
 			<div className={style.sidebar}>
@@ -141,7 +150,9 @@ export default function Settings() {
 						</div>
 					)}
 					<div className={style.buttondiv}>
-						<button style={{ backgroundColor: "red" }}>Reset</button>
+						<button style={{ backgroundColor: "red" }} onClick={resetHandler}>
+							Reset
+						</button>
 						<button onClick={submit} style={{ backgroundColor: "blue" }}>
 							Submit
 						</button>
@@ -219,16 +230,17 @@ export default function Settings() {
 											}}
 										/>
 									</div>
+
+									<button
+										onClick={() => {
+											const current = rules;
+											current.splice(index, 1);
+											setRules([...current]);
+										}}
+									>
+										Delete
+									</button>
 								</div>
-								<button
-									onClick={() => {
-										const current = rules;
-										current.splice(index, 1);
-										setRules([...current]);
-									}}
-								>
-									X
-								</button>
 							</div>
 						);
 					})}
