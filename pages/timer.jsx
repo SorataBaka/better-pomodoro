@@ -99,7 +99,7 @@ const Timer = () => {
 	};
 
 	const applyRule = (currentSessionNum) => {
-		console.log(currentSessionNum);
+		// console.log(currentSessionNum);
 		let applied = false;
 		let taskToAdd = 0;
 		let restToAdd = 0;
@@ -110,7 +110,7 @@ const Timer = () => {
 					ruleFunc.executeFunction(rule.position, currentSessionNum)) ||
 				ruleFunc.executeFunction(currentSessionNum)
 			) {
-				console.log("Applying " + rule.name);
+				// console.log("Applying " + rule.name);
 				switch (rule.type.toUpperCase()) {
 					case "TASK":
 						// setRunningTask(currentTask + rule.add);
@@ -136,7 +136,7 @@ const Timer = () => {
 				}
 			}
 		}
-		console.log(`Adding ${taskToAdd} and ${restToAdd}`);
+		// console.log(`Adding ${taskToAdd} and ${restToAdd}`);
 		setRunningTask(currentTask + taskToAdd);
 		setCurrentTask(currentTask + taskToAdd);
 		setRunningRest(currentRest + restToAdd);
