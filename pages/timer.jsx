@@ -83,7 +83,7 @@ const Timer = () => {
 				setIsTask(false);
 				setIsRest(true);
 			}
-		}, 50);
+		}, 1000);
 	};
 
 	const restTimerFunc = () => {
@@ -95,7 +95,7 @@ const Timer = () => {
 				setIsTask(true);
 				setIsRest(false);
 			}
-		}, 50);
+		}, 1000);
 	};
 
 	const applyRule = (currentSessionNum) => {
