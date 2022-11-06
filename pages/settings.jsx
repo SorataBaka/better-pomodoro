@@ -1,6 +1,10 @@
 import style from "../styles/Settings.module.css";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 export default function Settings() {
+	const router = useRouter();
+
 	const [isLoop, setLoop] = useState(false);
 
 	const [taskHour, setTaskHour] = useState(0);
@@ -23,6 +27,12 @@ export default function Settings() {
 		{ name: "Every Nth", rule_id: 5 },
 	];
 
+	const validateConfig = (config) => {
+		if (config.isLoop === false && config.session_num <= 0) return false;
+		if (config.starting_rest === 0 || config.starting_task === 0) return false;
+		return true;
+	};
+
 	const submit = () => {
 		const newConfig = {
 			is_loop: isLoop,
@@ -31,7 +41,15 @@ export default function Settings() {
 			starting_rest: restHour * 60 + restMinute,
 			starting_task: taskHour * 60 + taskMinute,
 		};
+		const validity = validateConfig(newConfig);
+		if (!validity) {
+			toast.warn(
+				"Please make sure you have selected the correct configurations! Starting times must be more than 0 and sessions must be set if loop is off."
+			);
+			return;
+		}
 		localStorage.setItem("config", JSON.stringify(newConfig));
+		router.push("/timer");
 	};
 
 	const addRule = () => {
@@ -189,13 +207,13 @@ export default function Settings() {
 										<input type="text" value={rule.name} disabled />
 									</div>
 									<div className={style.ruledetaildiv}>
-										<h3>Seconds to add</h3>
+										<h3>Minutes to add</h3>
 										<input
 											type="number"
-											value={parseInt(rule.add)}
+											value={parseInt(rule.add) / 60}
 											onChange={(e) => {
 												const updatedRules = rules;
-												updatedRules[index].add = parseInt(e.target.value);
+												updatedRules[index].add = parseInt(e.target.value) * 60;
 												setRules([...updatedRules]);
 											}}
 										/>
